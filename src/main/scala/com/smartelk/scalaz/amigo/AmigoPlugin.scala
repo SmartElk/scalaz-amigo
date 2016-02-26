@@ -6,7 +6,7 @@ import scala.tools.nsc.{Phase, Global}
 
 class AmigoPlugin(val global: Global) extends Plugin {
   override val name: String = "scalaz-amigo"
-  override val description: String = "Compiler plugin for Scalaz style code inspections"
+  override val description: String = "Compiler plugin for Scalaz code-style inspections"
   object configuration extends Configuration { val g = global }
 
   val component = new PostTyperComponent(global, configuration.postTyperInspections)
@@ -15,7 +15,7 @@ class AmigoPlugin(val global: Global) extends Plugin {
 
 class PostTyperComponent(val global: Global, val inspections: Seq[Inspection]) extends PluginComponent {
   require(inspections.forall(_.phase == InspectionPhase.PostTyperInspection), "Only inspections to be run after 'typer' phase are supported here")
-  override val phaseName: String = "scalaz-amigo-after-typer"
+  override val phaseName: String = "scalaz-amigo-post-typer"
   override val runsAfter: List[String] = List("typer")
   override val runsBefore = List[String]("patmat")
 
