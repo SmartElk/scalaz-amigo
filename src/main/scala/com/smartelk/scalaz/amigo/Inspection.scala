@@ -25,5 +25,3 @@ object InspectionPhase extends Enumeration {
 
 sealed trait FoundProblem
 case class Warning(message: String) extends FoundProblem
-case class Error(message: String) extends FoundProblem
-
