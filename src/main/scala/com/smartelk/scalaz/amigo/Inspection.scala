@@ -2,26 +2,32 @@ package com.smartelk.scalaz.amigo
 
 import scala.tools.nsc.Global
 
-abstract class Inspection(val global: Global) {
-  type InspectionPhase = InspectionPhase.Value
-  type Tree = global.Tree
+abstract class Inspection(protected val context: InspectionContext) {
+  type Tree = context.global.Tree
+  type Inspect = PartialFunction[Tree, Unit]
 
-  val phase: InspectionPhase = InspectionPhase.PostTyperInspection
-  def check(tree: Tree): Seq[FoundProblem]
+  protected val inspect: Inspect
 
-  def traverse(tree: Tree): Seq[FoundProblem] = {
-    import global._
-    tree match {
-      case DefDef(mods, _, _, _, _, _) if tree.symbol.isSynthetic => Seq()
-      case _ => check(tree)
+  val traversal = new context.global.Traverser {
+    private def lookOver(tree: Tree) = {
+      if (inspect.isDefinedAt(tree)) inspect(tree)
+      else super.traverse(tree)
+    }
+
+    override def traverse(tree: Tree): Unit = {
+      import context.global._
+      tree match {
+        case DefDef(mods, _, _, _, _, _) if tree.symbol.isSynthetic => Seq()
+        case _ => lookOver(tree)
+      }
     }
   }
 }
 
-object InspectionPhase extends Enumeration {
-  type InspectionPhase = Value
-  val PostTyperInspection = Value
+case class InspectionContext(val global: Global) {
+  val problems = scala.collection.mutable.Buffer[Problem]()
+  def problem(p: Problem) = problems += p
 }
 
-sealed trait FoundProblem
-case class Warning(message: String) extends FoundProblem
+trait Problem
+case class Warning(cause: String, advice: String) extends Problem

@@ -1,36 +1,17 @@
 package com.smartelk.scalaz.amigo
 
-import scala.tools.nsc.plugins.PluginComponent
-import scala.tools.nsc.{Global, Settings}
+import scala.tools.nsc.{Global}
 import tools.nsc.util.BatchSourceFile
-import tools.nsc.io.{VirtualDirectory, AbstractFile}
+import tools.nsc.io.{AbstractFile}
 import scala.reflect.internal.util.AbstractFileClassLoader
 import java.security.MessageDigest
 import java.math.BigInteger
 import collection.mutable
-import java.io.File
 
 //https://github.com/twitter/util/blob/master/util-eval/src/main/scala/com/twitter/util/Eval.scala
 
-class Compiler(targetDir: Option[File], pluginComponents: (Global => Seq[PluginComponent])) {
-  val target = targetDir match {
-    case Some(dir) => AbstractFile.getDirectory(dir)
-    case None => new VirtualDirectory("(memory)", None)
-  }
-
+class Compiler(target: AbstractFile, global: Global) {
   val classCache = mutable.Map[String, Class[_]]()
-
-  private val settings = new Settings()
-  //settings.deprecation.value = true // enable detailed deprecation warnings
-  //settings.unchecked.value = true // enable detailed unchecked warnings
-  settings.outputDirs.setSingleOutput(target)
-  settings.usejavacp.value = true
-
-  val global = new Global(settings)
-  for (phase <- pluginComponents(global)) {
-    import scala.language.reflectiveCalls
-    global.asInstanceOf[{def phasesSet: mutable.HashSet[tools.nsc.SubComponent]}].phasesSet += phase
-  }
 
   private lazy val run = new global.Run
 
@@ -44,7 +25,8 @@ class Compiler(targetDir: Option[File], pluginComponents: (Global => Seq[PluginC
   def compile(code: String) = {
     val className = classNameForCode(code)
     findClass(className).getOrElse {
-      val sourceFiles = List(new BatchSourceFile("(inline)", wrapCodeInClass(className, code)))
+      val codeWrappedInClass = wrapCodeInClass(className, code)
+      val sourceFiles = List(new BatchSourceFile("(inline)", codeWrappedInClass))
       run.compileSources(sourceFiles)
       findClass(className).get
     }

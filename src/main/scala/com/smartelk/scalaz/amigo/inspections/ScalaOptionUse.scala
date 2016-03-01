@@ -1,10 +1,13 @@
 package com.smartelk.scalaz.amigo.inspections
 
-import com.smartelk.scalaz.amigo.{FoundProblem, Inspection}
-import scala.tools.nsc.Global
+import com.smartelk.scalaz.amigo.{Warning, InspectionContext, Inspection}
 
-class ScalaOptionUse(global: Global) extends Inspection(global) {
-  override def check(tree: Tree): Seq[FoundProblem] = {
-    ???
+class ScalaOptionUse(c: InspectionContext) extends Inspection(c) {
+  import context.global._
+
+  override val inspect: Inspect = {
+    case Select(left, _) if (left.tpe.typeSymbol.fullName == "scala.Some") => {
+      c.problem(Warning("""Using Scala's "Some" directly""", """Use Scalaz's "some""""))
+    }
   }
 }
