@@ -25,9 +25,7 @@ abstract class Inspection(protected val context: InspectionContext) {
 }
 
 case class InspectionContext(val global: Global) {
-  val problems = scala.collection.mutable.Buffer[Problem]()
-  def problem(p: Problem) = problems += p
-}
+  val messages = scala.collection.mutable.Buffer[Message]()
 
-trait Problem
-case class Warning(cause: String, advice: String) extends Problem
+  def warning(problem: Problem, description: String, advice: String) = messages += Warning(problem, description, advice)
+}
