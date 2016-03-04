@@ -9,5 +9,6 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "org.scalatest" %%  "scalatest"   % "2.2.1" % "test",
-  "org.mockito" % "mockito-core" % "1.10.19" % "test"
+  "org.mockito" % "mockito-core" % "1.10.19" % "test",
+  "org.scalaz" %% "scalaz-core" % "7.1.4" % "test"
 )

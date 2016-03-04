@@ -1,6 +1,6 @@
 package com.smartelk.scalaz.amigo
 
-import com.smartelk.scalaz.amigo.inspections.ScalaOptionUse
+import com.smartelk.scalaz.amigo.inspections.ScalaOptionUsage
 import scala.tools.nsc.plugins.{Plugin, PluginComponent}
 import scala.tools.nsc.{Phase, Global}
 
@@ -18,7 +18,7 @@ class AmigoPlugin(val global: Global) extends Plugin {
 
     var applyToInspectionContextAfterInspection: (InspectionContext => Unit) = (_ => ())
 
-    override def newPhase(prev: Phase): StdPhase   = new StdPhase(prev) {
+    override def newPhase(prev: Phase): StdPhase = new StdPhase(prev) {
       override def apply(unit: global.CompilationUnit): Unit = {
         val context = InspectionContext(global)
         Configuration.inspections.foreach(ins => {
@@ -33,7 +33,7 @@ class AmigoPlugin(val global: Global) extends Plugin {
 
 object Configuration {
   val inspections = Seq(
-    new ScalaOptionUse(_)
+    new ScalaOptionUsage(_)
   )
 }
 
