@@ -4,23 +4,24 @@ import com.smartelk.scalaz.amigo.Problems._
 import com.smartelk.scalaz.amigo._
 
 class ScalaOptionUsageSpec extends BaseInspectionSpec {
+  import InspectionSpecDsl._
 
   "Inspecting for scala.Option usage" when {
 
     "there is usage of Some" should {
       "warn Some expression" in {
         compile( """Some(123)""") {
-          _.should have inspection problems ScalaSomeUsage
+          _.should have inspection problem ScalaSomeUsage
         }
       }
       "warn Some in val" in {
         compile( """val a: Option[String] = Some("123")""") {
-          _.should have inspection problems ScalaSomeUsage
+          _.should have inspection problem ScalaSomeUsage
         }
       }
       "warn Some in def" in {
         compile( """def func = Some(123)""") {
-          _.should have inspection problems ScalaSomeUsage
+          _.should have inspection problem ScalaSomeUsage
         }
       }
       "warn complex Some expression in def" in {
@@ -33,12 +34,12 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
     "there is usage of None" should {
       "warn None in val" in {
         compile( """val a: Option[String] = None""") {
-          _.should have inspection problems ScalaNoneUsage
+          _.should have inspection problem ScalaNoneUsage
         }
       }
       "warn None in def" in {
         compile( """def func: Option[Int] = None""") {
-          _.should have inspection problems ScalaNoneUsage
+          _.should have inspection problem ScalaNoneUsage
         }
       }
     }
@@ -58,9 +59,8 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
              import Scalaz._
              val a: Option[String] = none
              val b = none[Int]
-             val c = 1.some""") {_.should have inspection problems()
+             val c = 1.some""") {_.should not have inspection problems }
         }
-      }
     }
   }
 }

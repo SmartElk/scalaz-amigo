@@ -1,5 +1,6 @@
 package com.smartelk.scalaz.amigo
 
+import org.scalatest.words.{HaveWord}
 import org.scalatest.{WordSpecLike, Matchers}
 import scala.reflect.io.VirtualDirectory
 import scala.tools.nsc.{Settings, Global}
@@ -33,21 +34,30 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
     compiler.compile(code)
   }
 
-  object inspection
-  implicit class ContextWrapper(context: InspectionContext){
-    def should = new ShouldAction
+  object InspectionSpecDsl {
+    object inspection
+    object problems
+    implicit class ContextWrapper(context: InspectionContext){
+      def should = new ShouldAction
 
-    class ShouldAction {
-      def have(word: inspection.type) = new HaveAction
-    }
-    class HaveAction {
-      def problems(problems: Problem*) = {
-        shouldHaveInspectionProblems(problems:_*)
+      class ShouldAction {
+        def not (haveWord: HaveWord) = new ProblemsAction
+        def have(inspectionWord: inspection.type) = new HaveAction
       }
-    }
 
-    def shouldHaveInspectionProblems(problems: Problem*) = {
-      context.messages.map(_.problem) should be (problems)
+      class HaveAction {
+        def problems(problems: Problem*) = shouldHaveInspectionProblems(problems:_*)
+        def problem(problem: Problem) = shouldHaveInspectionProblems(problem)
+      }
+
+      class ProblemsAction {
+        def inspection(problemsWord: problems.type) = shouldHaveInspectionProblems()
+      }
+
+      def shouldHaveInspectionProblems(problems: Problem*) = {
+        context.messages.map(_.problem) should be (problems)
+      }
     }
   }
 }
+
