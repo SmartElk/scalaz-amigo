@@ -8,10 +8,10 @@ class ScalaOptionUsage(c: InspectionContext) extends Inspection(c) {
 
   override val inspect: Inspect =  {
     case Select(left, TermName("apply")) if (left.tpe.typeSymbol.fullName == "scala.Some") => {
-      warning(left, ScalaSomeUsage, """Using Scala's "Some" directly""", """Use Scalaz's "some"""")
+      warning(left, ScalaOptionUsage("Some"), """Using Scala's 'Some' directly""", """Use Scalaz's 'some'""")
     }
     case Select(left, TermName("None")) if (left.tpe.typeSymbol.fullName == "scala")  => {
-      warning(left, ScalaNoneUsage, """Using Scala's "None" directly""", """Use Scalaz's "none"""")
+      warning(left, ScalaOptionUsage("None"), """Using Scala's 'None' directly""", """Use Scalaz's 'none'""")
     }
   }
 }

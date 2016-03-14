@@ -1,9 +1,10 @@
 package com.smartelk.scalaz.amigo
 
-sealed trait Problem
+sealed trait Problem {
+  val internalDetails: String
+}
 
 object Problems {
-  case object ScalaSomeUsage extends Problem
-  case object ScalaNoneUsage extends Problem
-  case object DualEqualityUsage extends Problem
+  case class ScalaOptionUsage(internalDetails: String) extends Problem
+  case class ScalaEqualityUsage(internalDetails: String) extends Problem
 }

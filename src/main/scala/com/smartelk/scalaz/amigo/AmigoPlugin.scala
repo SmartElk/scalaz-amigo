@@ -1,6 +1,6 @@
 package com.smartelk.scalaz.amigo
 
-import com.smartelk.scalaz.amigo.inspections.ScalaOptionUsage
+import com.smartelk.scalaz.amigo.inspections.{ScalaEqualityUsage, ScalaOptionUsage}
 import scala.tools.nsc.plugins.{Plugin, PluginComponent}
 import scala.tools.nsc.{Phase, Global}
 
@@ -33,7 +33,8 @@ class AmigoPlugin(val global: Global) extends Plugin {
 
 object Configuration {
   val inspections = Seq(
-    new ScalaOptionUsage(_)
+    new ScalaOptionUsage(_),
+    new ScalaEqualityUsage(_)
   )
 }
 

@@ -11,22 +11,22 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
     "there is usage of Some" should {
       "warn Some expression" in {
         compile( """Some(123)""") {
-          _.should have inspection problem ScalaSomeUsage
+          _.should have inspection problem ScalaOptionUsage("Some")
         }
       }
       "warn Some in val" in {
         compile( """val a: Option[String] = Some("123")""") {
-          _.should have inspection problem ScalaSomeUsage
+          _.should have inspection problem ScalaOptionUsage("Some")
         }
       }
       "warn Some in def" in {
         compile( """def func = Some(123)""") {
-          _.should have inspection problem ScalaSomeUsage
+          _.should have inspection problem ScalaOptionUsage("Some")
         }
       }
       "warn complex Some expression in def" in {
         compile( """def func = Some(123).flatMap(a => Some(a + 1))""") {
-          _.should have inspection problems(ScalaSomeUsage, ScalaSomeUsage)
+          _.should have inspection problems(ScalaOptionUsage("Some"), ScalaOptionUsage("Some"))
         }
       }
     }
@@ -34,12 +34,12 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
     "there is usage of None" should {
       "warn None in val" in {
         compile( """val a: Option[String] = None""") {
-          _.should have inspection problem ScalaNoneUsage
+          _.should have inspection problem ScalaOptionUsage("None")
         }
       }
       "warn None in def" in {
         compile( """def func: Option[Int] = None""") {
-          _.should have inspection problem ScalaNoneUsage
+          _.should have inspection problem ScalaOptionUsage("None")
         }
       }
     }
@@ -47,7 +47,7 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
     "there are multiple Some and None usages" should {
       "warn them all" in {
         compile( """def func: Option[Int] = {val a = Some(1); None }""") {
-          _.should have inspection problems(ScalaSomeUsage, ScalaNoneUsage)
+          _.should have inspection problems(ScalaOptionUsage("Some"), ScalaOptionUsage("None"))
         }
       }
     }
