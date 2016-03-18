@@ -23,14 +23,14 @@ abstract class Inspection(protected val context: InspectionContext) {
     }
   }
 
-  def warning(tree: Tree, problem: Problem, description: String, advice: String) = context.messages += context.Warning(tree, problem, description, advice)
+  def warning(tree: Tree, problem: String, description: String, advice: String, example: String = "") = context.messages += context.Warning(tree, problem, description, advice, example)
 }
 
 case class InspectionContext(val global: Global) {
   val messages = scala.collection.mutable.Buffer[Message]()
-  case class Warning(tree: global.Tree, problem: Problem, description: String, advice: String) extends Message
+  case class Warning(tree: global.Tree, problem: String, description: String, advice: String, example: String) extends Message
 }
 
 trait Message {
-  val problem: Problem
+  val problem: String
 }

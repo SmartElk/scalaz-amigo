@@ -1,7 +1,6 @@
 package com.smartelk.scalaz.amigo.inspections
 
-import com.smartelk.scalaz.amigo.Problems._
-import com.smartelk.scalaz.amigo.BaseInspectionSpec
+import com.smartelk.scalaz.amigo._
 
 class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
   import InspectionSpecDsl._
@@ -11,7 +10,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
     "there is == usage comparing different types" should {
       "warn expression" in {
         compile(""" 1 == "1" """) {
-          _.should have inspection problem ScalaEqualityUsage("==")
+          _.should have inspection problem "'==' usage"
         }
       }
     }
@@ -23,7 +22,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
              val a = Test("a")
              val b = Test("b")
              a == b """) {
-          _.should have inspection problem ScalaEqualityUsage("==")
+          _.should have inspection problem "'==' usage"
         }
       }
     }
@@ -35,7 +34,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
             def test1: Int = 1
             1 == test1
             """.stripMargin) {
-          _.should have inspection problem ScalaEqualityUsage("==")
+          _.should have inspection problem "'==' usage"
         }
       }
     }
@@ -57,7 +56,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
     "there is != usage comparing different types" should {
       "warn expression" in {
         compile(""" 1 != "2" """) {
-          _.should have inspection problem ScalaEqualityUsage("!=")
+          _.should have inspection problem "'!=' usage"
         }
       }
     }
@@ -69,7 +68,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
              val a = Test("a")
              val b = Test("b")
              a != b """) {
-          _.should have inspection problem ScalaEqualityUsage("!=")
+          _.should have inspection problem "'!=' usage"
         }
       }
     }
@@ -81,7 +80,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
             def test1: Int = 1
             1 != test1
           """.stripMargin) {
-          _.should have inspection problem ScalaEqualityUsage("!=")
+          _.should have inspection problem "'!=' usage"
         }
       }
     }
@@ -91,7 +90,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
         compile(
           """import scalaz._
              import Scalaz._
-             1 =/= 1 """) {
+             1 =/= 2 """) {
           _.should not have inspection problems
         }
       }

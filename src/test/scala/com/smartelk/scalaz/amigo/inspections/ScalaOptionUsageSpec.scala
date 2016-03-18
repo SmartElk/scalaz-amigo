@@ -1,6 +1,5 @@
 package com.smartelk.scalaz.amigo.inspections
 
-import com.smartelk.scalaz.amigo.Problems._
 import com.smartelk.scalaz.amigo._
 
 class ScalaOptionUsageSpec extends BaseInspectionSpec {
@@ -9,37 +8,37 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
   "Inspecting for scala.Option usage" when {
 
     "there is usage of Some" should {
-      "warn Some expression" in {
+      "warn expression" in {
         compile( """Some(123)""") {
-          _.should have inspection problem ScalaOptionUsage("Some")
+          _.should have inspection problem "'Some' usage"
         }
       }
-      "warn Some in val" in {
+      "warn in val" in {
         compile( """val a: Option[String] = Some("123")""") {
-          _.should have inspection problem ScalaOptionUsage("Some")
+          _.should have inspection problem "'Some' usage"
         }
       }
-      "warn Some in def" in {
+      "warn in def" in {
         compile( """def func = Some(123)""") {
-          _.should have inspection problem ScalaOptionUsage("Some")
+          _.should have inspection problem "'Some' usage"
         }
       }
-      "warn complex Some expression in def" in {
+      "warn complex expression in def" in {
         compile( """def func = Some(123).flatMap(a => Some(a + 1))""") {
-          _.should have inspection problems(ScalaOptionUsage("Some"), ScalaOptionUsage("Some"))
+          _.should have inspection problems("'Some' usage", "'Some' usage")
         }
       }
     }
 
     "there is usage of None" should {
-      "warn None in val" in {
+      "warn in val" in {
         compile( """val a: Option[String] = None""") {
-          _.should have inspection problem ScalaOptionUsage("None")
+          _.should have inspection problem "'None' usage"
         }
       }
-      "warn None in def" in {
+      "warn in def" in {
         compile( """def func: Option[Int] = None""") {
-          _.should have inspection problem ScalaOptionUsage("None")
+          _.should have inspection problem "'None' usage"
         }
       }
     }
@@ -47,7 +46,7 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
     "there are multiple Some and None usages" should {
       "warn them all" in {
         compile( """def func: Option[Int] = {val a = Some(1); None }""") {
-          _.should have inspection problems(ScalaOptionUsage("Some"), ScalaOptionUsage("None"))
+          _.should have inspection problems("'Some' usage", "'None' usage")
         }
       }
     }
@@ -58,8 +57,8 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
           """import scalaz._
              import Scalaz._
              val a: Option[String] = none
-             val b = none[Int]
-             val c = 1.some""") {_.should not have inspection problems }
+             val b: Option[Int] = none[Int]
+             val c: Option[Int] = 1.some""") {_.should not have inspection problems }
         }
     }
   }

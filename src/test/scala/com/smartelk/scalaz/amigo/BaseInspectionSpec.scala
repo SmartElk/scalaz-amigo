@@ -46,15 +46,15 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
       }
 
       class HaveAction {
-        def problems(problems: Problem*) = shouldHaveInspectionProblems(problems:_*)
-        def problem(problem: Problem) = shouldHaveInspectionProblems(problem)
+        def problems(problems: String*) = shouldHaveInspectionProblems(problems:_*)
+        def problem(problem: String) = shouldHaveInspectionProblems(problem)
       }
 
       class ProblemsAction {
         def inspection(problemsWord: problems.type) = shouldHaveInspectionProblems()
       }
 
-      def shouldHaveInspectionProblems(problems: Problem*) = {
+      def shouldHaveInspectionProblems(problems: String*) = {
         context.messages.map(_.problem) should be (problems)
       }
     }
