@@ -2,7 +2,7 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo._
 
-class ScalaEqualityUsage(c: InspectionContext) extends Inspection(c) {
+class EqualityUsage(c: InspectionContext) extends Inspection(c) {
   import context.global._
 
   override val inspect: Inspect =  {

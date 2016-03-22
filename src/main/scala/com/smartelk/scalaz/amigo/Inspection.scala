@@ -17,7 +17,7 @@ abstract class Inspection(protected val context: InspectionContext) {
     override def traverse(tree: Tree): Unit = {
       import context.global._
       tree match {
-        case DefDef(mods, _, _, _, _, _) if tree.symbol.isSynthetic => Seq()
+        case DefDef(mods, _, _, _, _, _) if tree.symbol.isSynthetic =>
         case _ => lookOver(tree)
       }
     }

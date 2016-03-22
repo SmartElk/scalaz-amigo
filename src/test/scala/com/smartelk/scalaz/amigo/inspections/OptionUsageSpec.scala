@@ -2,12 +2,12 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo._
 
-class ScalaOptionUsageSpec extends BaseInspectionSpec {
+class OptionUsageSpec extends BaseInspectionSpec {
   import InspectionSpecDsl._
 
-  "Inspecting for scala.Option usage" when {
+  "Inspecting for 'scala.Option' usage" when {
 
-    "there is usage of Some" should {
+    "there is usage of 'Some'" should {
       "warn expression" in {
         compile( """Some(123)""") {
           _.should have inspection problem "'Some' usage"
@@ -30,7 +30,7 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
       }
     }
 
-    "there is usage of None" should {
+    "there is usage of 'None'" should {
       "warn in val" in {
         compile( """val a: Option[String] = None""") {
           _.should have inspection problem "'None' usage"
@@ -43,7 +43,7 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
       }
     }
 
-    "there are multiple Some and None usages" should {
+    "there are multiple 'Some' and 'None' usages" should {
       "warn them all" in {
         compile( """def func: Option[Int] = {val a = Some(1); None }""") {
           _.should have inspection problems("'Some' usage", "'None' usage")
@@ -51,7 +51,7 @@ class ScalaOptionUsageSpec extends BaseInspectionSpec {
       }
     }
 
-    "there are only scalaz Option usages" should {
+    "there are only scalaz 'Option' usages" should {
       "not warn them" in {
         compile(
           """import scalaz._

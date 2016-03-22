@@ -33,9 +33,10 @@ class AmigoPlugin(val global: Global) extends Plugin {
 
 object Configuration {
   val inspections = Seq(
-    new ScalaOptionUsage(_),
-    new ScalaEqualityUsage(_),
-    new ScalaEitherUsage(_)
+    new OptionUsage(_),
+    new EqualityUsage(_),
+    new EitherUsage(_),
+    new ToStringUsage(_)
   )
 }
 

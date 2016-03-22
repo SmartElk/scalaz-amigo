@@ -2,12 +2,12 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo._
 
-class ScalaEitherUsageSpec extends BaseInspectionSpec {
+class EitherUsageSpec extends BaseInspectionSpec {
   import InspectionSpecDsl._
 
-  "Inspecting for scala.util.Either usage" when {
+  "Inspecting for 'scala.util.Either' usage" when {
 
-    "there is usage of Right" should {
+    "there is usage of 'Right'" should {
       "warn expression" in {
         compile( """Right(123)""") {
           _.should have inspection problem "'Right' usage"
@@ -30,7 +30,7 @@ class ScalaEitherUsageSpec extends BaseInspectionSpec {
       }
     }
 
-    "there is usage of Left" should {
+    "there is usage of 'Left'" should {
       "warn expression" in {
         compile( """Left("bla")""") {
           _.should have inspection problem "'Left' usage"
@@ -53,7 +53,7 @@ class ScalaEitherUsageSpec extends BaseInspectionSpec {
       }
     }
 
-    "there are multiple Right and Left usages" should {
+    "there are multiple 'Right' and 'Left' usages" should {
       "warn them all" in {
         compile( """def func: Either[Int, String] = {val a = Left(1); Right("blab") }""") {
           _.should have inspection problems("'Left' usage", "'Right' usage")

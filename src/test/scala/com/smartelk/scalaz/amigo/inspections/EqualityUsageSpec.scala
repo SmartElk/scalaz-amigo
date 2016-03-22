@@ -2,12 +2,12 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo._
 
-class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
+class EqualityUsageSpec  extends BaseInspectionSpec {
   import InspectionSpecDsl._
 
-  "Inspecting for == usage" when {
+  "Inspecting for '==' usage" when {
 
-    "there is == usage comparing different types" should {
+    "there is usage comparing different types" should {
       "warn expression" in {
         compile(""" 1 == "1" """) {
           _.should have inspection problem "'==' usage"
@@ -15,7 +15,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
       }
     }
 
-    "there is == usage comparing object types" should {
+    "there is usage comparing object types" should {
       "warn expression" in {
         compile(
           """case class Test(t1: String)
@@ -27,7 +27,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
       }
     }
 
-    "there is == usage comparing numeric types" should {
+    "there is usage comparing numeric types" should {
       "warn expression" in {
         compile(
           """
@@ -39,7 +39,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
       }
     }
 
-    "there are no == usages" should {
+    "there are no usages" should {
       "not warn" in {
         compile(
           """import scalaz._
@@ -51,9 +51,9 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
     }
   }
 
-  "Inspecting for != usage" when {
+  "Inspecting for '!=' usage" when {
 
-    "there is != usage comparing different types" should {
+    "there is usage comparing different types" should {
       "warn expression" in {
         compile(""" 1 != "2" """) {
           _.should have inspection problem "'!=' usage"
@@ -61,7 +61,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
       }
     }
 
-    "there is != usage comparing object types" should {
+    "there is usage comparing object types" should {
       "warn expression" in {
         compile(
           """case class Test(t1: String)
@@ -73,7 +73,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
       }
     }
 
-    "there is != usage comparing numeric types" should {
+    "there is usage comparing numeric types" should {
       "warn expression" in {
         compile(
           """
@@ -85,7 +85,7 @@ class ScalaEqualityUsageSpec  extends BaseInspectionSpec {
       }
     }
 
-    "there are no != usages" should {
+    "there are no usages" should {
       "not warn" in {
         compile(
           """import scalaz._
