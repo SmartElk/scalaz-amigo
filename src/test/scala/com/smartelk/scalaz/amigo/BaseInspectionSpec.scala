@@ -4,7 +4,6 @@ import org.scalatest.words.{HaveWord}
 import org.scalatest.{WordSpecLike, Matchers}
 import scala.reflect.io.VirtualDirectory
 import scala.tools.nsc.{Settings, Global}
-import scala.collection.mutable
 
 trait BaseInspectionSpec extends WordSpecLike with Matchers {
 
@@ -18,17 +17,12 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
     settings.usejavacp.value = true
 
     val global = new Global(settings)
+    val _ = global.plugins
 
-    val components = new AmigoPlugin(global).components
-    components.foreach(c => {
-      import scala.language.reflectiveCalls
-      c.asInstanceOf[{var applyToInspectionContextAfterInspection: InspectionContext => Unit}].applyToInspectionContextAfterInspection = assert
-    })
-
-    for (phase <- components) {
-      import scala.language.reflectiveCalls
-      global.asInstanceOf[{def phasesSet: mutable.HashSet[tools.nsc.SubComponent]}].phasesSet += phase
-    }
+    val f_plugins = global.getClass.getDeclaredField("plugins")
+    f_plugins.setAccessible(true)
+    val amigoPlugin = new AmigoPlugin(global)
+    f_plugins.set(global, global.plugins :+ amigoPlugin)
 
     val compiler = new Compiler(targetDir, global)
     compiler.compile(code)

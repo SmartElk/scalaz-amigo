@@ -25,10 +25,6 @@ class Compiler(targetDir: VirtualDirectory, global: Global) {
   }
 
   private def wrapCodeInClass(className: String, code: String) = {
-    "class " + className + " extends (() => Any) {\n" +
-      "  def apply() = {\n" +
-      code + "\n" +
-      "  }\n" +
-      "}\n"
+    s"class $className {  $code }"
   }
 }
