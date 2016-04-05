@@ -1,8 +1,13 @@
 package com.smartelk.scalaz.amigo
 
+import scala.meta.tql
 import scala.tools.nsc.Global
+import scala.meta.tql._
 
-abstract class Inspection(protected val context: InspectionContext) {
+import scala.meta.internal.ast._
+import scala.meta.semantic._
+
+/*abstract class Inspection(protected val context: InspectionContext) {
   type Tree = context.global.Tree
   type Inspect = PartialFunction[Tree, Unit]
 
@@ -33,4 +38,10 @@ case class InspectionContext(val global: Global) {
 
 trait Message {
   val problem: String
+}*/
+
+abstract class Inspection {
+  def apply(unit: scala.meta.Tree): Seq[Warning]
 }
+
+case class Warning(problem: String, description: String, advice: String, example: String)

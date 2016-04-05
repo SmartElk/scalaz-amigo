@@ -1,6 +1,6 @@
 package com.smartelk.scalaz.amigo
 
-import com.smartelk.scalaz.amigo.inspections.{ToStringUsage, EitherUsage, EqualityUsage, OptionUsage}
+/*import com.smartelk.scalaz.amigo.inspections.{ToStringUsage, EitherUsage, EqualityUsage, OptionUsage}
 
 object Settings {
   val inspections = Seq(
@@ -9,4 +9,4 @@ object Settings {
     new EitherUsage(_),
     new ToStringUsage(_)
   )
-}
+}*/

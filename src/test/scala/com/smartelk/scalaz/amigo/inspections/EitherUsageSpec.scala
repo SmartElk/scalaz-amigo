@@ -2,6 +2,7 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo._
 
+/*
 class EitherUsageSpec extends BaseInspectionSpec {
   import InspectionSpecDsl._
 
@@ -71,4 +72,4 @@ class EitherUsageSpec extends BaseInspectionSpec {
       }
     }
   }
-}
+}*/

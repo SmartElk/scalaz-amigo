@@ -13,7 +13,7 @@ class OptionUsageSpec extends BaseInspectionSpec {
           _.should have inspection problem "'Some' usage"
         }
       }
-      "warn in val" in {
+      /*"warn in val" in {
         compile( """val a: Option[String] = Some("123")""") {
           _.should have inspection problem "'Some' usage"
         }
@@ -27,10 +27,10 @@ class OptionUsageSpec extends BaseInspectionSpec {
         compile( """def func = Some(123).flatMap(a => Some(a + 1))""") {
           _.should have inspection problems("'Some' usage", "'Some' usage")
         }
-      }
+      }*/
     }
 
-    "there is usage of 'None'" should {
+    /*"there is usage of 'None'" should {
       "warn in val" in {
         compile( """val a: Option[String] = None""") {
           _.should have inspection problem "'None' usage"
@@ -60,6 +60,6 @@ class OptionUsageSpec extends BaseInspectionSpec {
              val b: Option[Int] = none[Int]
              val c: Option[Int] = 1.some""") {_.should not have inspection problems }
         }
-    }
+    }*/
   }
 }

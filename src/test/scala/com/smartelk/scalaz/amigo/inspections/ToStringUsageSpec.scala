@@ -2,7 +2,7 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo.BaseInspectionSpec
 
-class ToStringUsageSpec extends BaseInspectionSpec {
+/*class ToStringUsageSpec extends BaseInspectionSpec {
   import InspectionSpecDsl._
 
   "Inspecting for 'toString' usage" when {
@@ -33,4 +33,4 @@ class ToStringUsageSpec extends BaseInspectionSpec {
       }
     }
   }
-}
+}*/

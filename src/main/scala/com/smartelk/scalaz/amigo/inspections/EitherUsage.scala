@@ -2,7 +2,7 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo._
 
-class EitherUsage(c: InspectionContext) extends Inspection(c) {
+/*class EitherUsage(c: InspectionContext) extends Inspection(c) {
   import context.global._
 
   override val inspect: Inspect =  {
@@ -29,4 +29,4 @@ class EitherUsage(c: InspectionContext) extends Inspection(c) {
         """.stripMargin)
     }
   }
-}
+}*/

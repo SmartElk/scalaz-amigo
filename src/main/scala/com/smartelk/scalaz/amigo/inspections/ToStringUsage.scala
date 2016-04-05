@@ -1,7 +1,8 @@
 package com.smartelk.scalaz.amigo.inspections
 
-import com.smartelk.scalaz.amigo.{Inspection, InspectionContext}
+//import com.smartelk.scalaz.amigo.{Inspection, InspectionContext}
 
+/*
 class ToStringUsage(c: InspectionContext) extends Inspection(c) {
   import context.global._
 
@@ -18,4 +19,4 @@ class ToStringUsage(c: InspectionContext) extends Inspection(c) {
         """.stripMargin)
     }
   }
-}
+}*/

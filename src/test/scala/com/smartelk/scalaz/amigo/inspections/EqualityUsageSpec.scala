@@ -2,7 +2,7 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo._
 
-class EqualityUsageSpec  extends BaseInspectionSpec {
+/*class EqualityUsageSpec  extends BaseInspectionSpec {
   import InspectionSpecDsl._
 
   "Inspecting for '==' usage" when {
@@ -96,4 +96,4 @@ class EqualityUsageSpec  extends BaseInspectionSpec {
       }
     }
   }
-}
+}*/

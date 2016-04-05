@@ -7,7 +7,7 @@ import scala.tools.nsc.{Settings, Global}
 
 trait BaseInspectionSpec extends WordSpecLike with Matchers {
 
-  def compile(code: String)(assert: InspectionContext => Unit): Unit = {
+  def compile(code: String)(assert: Seq[Warning] => Unit): Unit = {
     val targetDir =  new VirtualDirectory("(memory)", None)
 
     val settings = new Settings()
@@ -24,6 +24,8 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
     val amigoPlugin = new AmigoPlugin(global)
     f_plugins.set(global, global.plugins :+ amigoPlugin)
 
+    amigoPlugin.applyToInspectionContextAfterInspection = assert
+
     val compiler = new Compiler(targetDir, global)
     compiler.compile(code)
   }
@@ -31,7 +33,7 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
   object InspectionSpecDsl {
     object inspection
     object problems
-    implicit class ContextWrapper(context: InspectionContext){
+    implicit class ContextWrapper(context: Seq[Warning]){
       def should = new ShouldAction
 
       class ShouldAction {
@@ -49,7 +51,7 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
       }
 
       def shouldHaveInspectionProblems(problems: String*) = {
-        context.messages.map(_.problem) should be (problems)
+        context.map(_.problem) should be (problems)
       }
     }
   }

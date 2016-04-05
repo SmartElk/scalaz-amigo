@@ -1,8 +1,44 @@
 package com.smartelk.scalaz.amigo.inspections
 
-import com.smartelk.scalaz.amigo._
+import com.smartelk.scalaz.amigo.{Inspection, Warning}
+import scala.meta.tql._
+import scala.meta.internal.ast._
+import scala.language.reflectiveCalls
 
-class OptionUsage(c: InspectionContext) extends Inspection(c) {
+class OptionUsage extends Inspection {
+
+  def apply(unit: scala.meta.Tree): Seq[Warning] = unit.topDown.collect {
+    case t @ Term.Apply(Term.Name("Some"), _) => {
+      Warning(
+        "'Some' usage",
+        """Using Scala's standard 'Some'""",
+        """Use Scalaz's 'some'. See: 'http://eed3si9n.com/scalaz-cheat-sheet'""",
+        """
+          |import scalaz._
+          |import Scalaz._
+          |val a: Option[Int] = 1.some
+        """.stripMargin)
+    }
+    /*case t @ Term.Name("None") => {
+      Warning(
+        "'Some' usage",
+        """Using Scala's standard 'Some'""",
+        """Use Scalaz's 'some'. See: 'http://eed3si9n.com/scalaz-cheat-sheet'""",
+        """
+          |import scalaz._
+          |import Scalaz._
+          |val a: Option[Int] = 1.some
+        """.stripMargin)
+    }*/
+  }
+
+ /* def apply = collect {
+    case t @ Term.Select(Term.Apply(Term.Name("List"), l), Term.Name("toSet")) => "Message!"
+  }.topDown*/
+}
+
+
+/*class OptionUsage(c: InspectionContext) extends Inspection(c) {
   import context.global._
 
   override val inspect: Inspect =  {
@@ -30,4 +66,4 @@ class OptionUsage(c: InspectionContext) extends Inspection(c) {
         """.stripMargin)
     }
   }
-}
+}*/
