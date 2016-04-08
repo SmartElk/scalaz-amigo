@@ -8,7 +8,7 @@ import scala.language.reflectiveCalls
 class OptionUsage extends Inspection {
 
   def apply(unit: scala.meta.Tree): Seq[Warning] = unit.topDown.collect {
-    case t @ Term.Apply(Term.Name("Some"), _) => {
+   case Term.Apply(Term.Name("Some"), _) => {
       Warning(
         "'Some' usage",
         """Using Scala's standard 'Some'""",
@@ -19,17 +19,17 @@ class OptionUsage extends Inspection {
           |val a: Option[Int] = 1.some
         """.stripMargin)
     }
-    /*case t @ Term.Name("None") => {
+    case Term.Name("None") => {
       Warning(
-        "'Some' usage",
-        """Using Scala's standard 'Some'""",
-        """Use Scalaz's 'some'. See: 'http://eed3si9n.com/scalaz-cheat-sheet'""",
+        "'None' usage",
+        """Using Scala's standard 'None'""",
+        """Use Scalaz's 'none'. See: 'http://eed3si9n.com/scalaz-cheat-sheet'""",
         """
           |import scalaz._
           |import Scalaz._
-          |val a: Option[Int] = 1.some
+          |val a: Option[Int] = none[Int]
         """.stripMargin)
-    }*/
+    }
   }
 
  /* def apply = collect {

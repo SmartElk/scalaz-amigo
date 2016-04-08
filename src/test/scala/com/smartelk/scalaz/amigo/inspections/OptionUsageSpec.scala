@@ -17,8 +17,8 @@ class OptionUsageSpec extends BaseInspectionSpec {
         compile( """val a: Option[String] = Some("123")""") {
           _.should have inspection problem "'Some' usage"
         }
-      }
-      "warn in def" in {
+      }*/
+      /*"warn in def" in {
         compile( """def func = Some(123)""") {
           _.should have inspection problem "'Some' usage"
         }
@@ -58,8 +58,10 @@ class OptionUsageSpec extends BaseInspectionSpec {
              import Scalaz._
              val a: Option[String] = none
              val b: Option[Int] = none[Int]
-             val c: Option[Int] = 1.some""") {_.should not have inspection problems }
+             val c: Option[Int] = 1.some""") {
+          _.should not have inspection problems
         }
+      }
     }*/
   }
 }

@@ -1,0 +1,3 @@
+[submodule "scalameta"]
+	path = scalameta
+	url = https://github.com/ialekseev/scalameta.git
