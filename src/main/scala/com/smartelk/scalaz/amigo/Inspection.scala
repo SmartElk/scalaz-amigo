@@ -41,7 +41,7 @@ trait Message {
 }*/
 
 abstract class Inspection {
-  def apply(unit: scala.meta.Tree): Seq[Warning]
+  def apply(mtree: scala.meta.Tree): Seq[Warning]
 }
 
 case class Warning(problem: String, description: String, advice: String, example: String)

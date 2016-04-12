@@ -2,7 +2,6 @@ package com.smartelk.scalaz.amigo.inspections
 
 import com.smartelk.scalaz.amigo._
 
-/*
 class EitherUsageSpec extends BaseInspectionSpec {
   import InspectionSpecDsl._
 
@@ -71,5 +70,28 @@ class EitherUsageSpec extends BaseInspectionSpec {
              val b: \/[String,Int] = "bla".left[Int]""") {_.should not have inspection problems }
       }
     }
+
+    //todo: false positive. Probably we need to use scalameta's semantic analysis to fix it
+    "there are Either usages but not Scala's standard ones" should {
+      "not warn custom Right" ignore {
+        compile(
+          """object Custom {
+               case class Right(a: Int)
+               val a: Custom.Right = Right(1)
+              }""") {
+          _.should not have inspection problems
+        }
+      }
+
+      "not warn custom Left" ignore {
+        compile(
+          """object Custom {
+                case class Left(a: String)
+                val a: Custom.Left = Left("1")
+              }""") {
+          _.should not have inspection problems
+        }
+      }
+    }
   }
-}*/
+}

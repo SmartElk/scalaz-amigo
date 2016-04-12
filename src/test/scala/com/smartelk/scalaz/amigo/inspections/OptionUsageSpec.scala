@@ -13,12 +13,12 @@ class OptionUsageSpec extends BaseInspectionSpec {
           _.should have inspection problem "'Some' usage"
         }
       }
-      /*"warn in val" in {
+      "warn in val" in {
         compile( """val a: Option[String] = Some("123")""") {
           _.should have inspection problem "'Some' usage"
         }
-      }*/
-      /*"warn in def" in {
+      }
+      "warn in def" in {
         compile( """def func = Some(123)""") {
           _.should have inspection problem "'Some' usage"
         }
@@ -27,10 +27,10 @@ class OptionUsageSpec extends BaseInspectionSpec {
         compile( """def func = Some(123).flatMap(a => Some(a + 1))""") {
           _.should have inspection problems("'Some' usage", "'Some' usage")
         }
-      }*/
+      }
     }
 
-    /*"there is usage of 'None'" should {
+    "there is usage of 'None'" should {
       "warn in val" in {
         compile( """val a: Option[String] = None""") {
           _.should have inspection problem "'None' usage"
@@ -62,6 +62,29 @@ class OptionUsageSpec extends BaseInspectionSpec {
           _.should not have inspection problems
         }
       }
-    }*/
+    }
+
+    //todo: false positive. Probably we need to use scalameta's semantic analysis to fix it
+    "there are Option usages but not Scala's standard ones" should {
+      "not warn custom Some" ignore {
+        compile(
+          """object Custom {
+               case class Some(a: Int)
+               val a: Custom.Some = Some(1)
+              }""") {
+          _.should not have inspection problems
+        }
+      }
+
+      "not warn custom None" ignore {
+        compile(
+          """object Custom {
+                case object None
+                val a: Custom.None.type = None
+              }""") {
+          _.should not have inspection problems
+        }
+      }
+    }
   }
 }

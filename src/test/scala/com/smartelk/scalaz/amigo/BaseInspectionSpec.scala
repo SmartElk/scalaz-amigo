@@ -24,7 +24,7 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
     val amigoPlugin = new AmigoPlugin(global)
     f_plugins.set(global, global.plugins :+ amigoPlugin)
 
-    //amigoPlugin.applyToInspectionContextAfterInspection = assert
+    amigoPlugin.applyToInspectionContextAfterInspection = assert
 
     val compiler = new Compiler(targetDir, global)
     compiler.compile(code)
