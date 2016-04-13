@@ -1,6 +1,6 @@
 package com.smartelk.scalaz.amigo
 
-import com.smartelk.scalaz.amigo.inspections.{ToStringUsage, EqualityUsage, EitherUsage, OptionUsage}
+import com.smartelk.scalaz.amigo.inspections._
 import scala.tools.nsc.plugins.{Plugin, PluginComponent}
 import scala.tools.nsc._
 import scala.meta._
@@ -33,7 +33,8 @@ class AmigoPlugin(val global: Global) extends Plugin {
     new OptionUsage,
     new EitherUsage,
     new EqualityUsage,
-    new ToStringUsage
+    new ToStringUsage,
+    new VarUsage
   )
 }
 
