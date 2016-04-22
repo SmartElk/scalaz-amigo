@@ -21,10 +21,10 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
 
     val f_plugins = global.getClass.getDeclaredField("plugins")
     f_plugins.setAccessible(true)
-    val amigoPlugin = new AmigoPlugin(global)
+    val amigoPlugin = new AmigoPlugin(global) {
+      override def applyOnInspectionResult(result: Seq[Warning]) = assert(result)
+    }
     f_plugins.set(global, global.plugins :+ amigoPlugin)
-
-    amigoPlugin.applyToInspectionContextAfterInspection = assert
 
     val compiler = new Compiler(targetDir, global)
     compiler.compile(code)

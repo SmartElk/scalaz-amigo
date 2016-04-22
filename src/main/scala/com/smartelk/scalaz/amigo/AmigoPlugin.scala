@@ -10,9 +10,7 @@ class AmigoPlugin(val global: Global) extends Plugin {
 
   override val components: List[PluginComponent] = List(AmigoComponent)
   val name = "scalaz-amigo"
-  val description = "scalaz-amigo"
-
-  var applyToInspectionContextAfterInspection: (Seq[Warning] => Unit) = (_ => ())
+  val description = "Compiler plugin for Scalaz code-style inspections"
 
   object AmigoComponent extends PluginComponent {
     override val global: self.global.type = self.global
@@ -22,10 +20,16 @@ class AmigoPlugin(val global: Global) extends Plugin {
 
     override def newPhase(prev: Phase): StdPhase = new StdPhase(prev) {
       override def apply(unit: global.CompilationUnit): Unit = {
-        val mtree = unit.source.content.parse[Source]
+        val mtree = unit.source.content.parse[Source].get
         val result = inspections.flatMap(_(mtree))
-        applyToInspectionContextAfterInspection(result)
+        applyOnInspectionResult(result)
       }
+    }
+  }
+
+  def applyOnInspectionResult(result: Seq[Warning]) = {
+    result.foreach {r =>
+      global.reporter.warning(r.mtree.position, r.description)
     }
   }
 
@@ -37,5 +41,6 @@ class AmigoPlugin(val global: Global) extends Plugin {
     new VarUsage
   )
 }
+
 
 
