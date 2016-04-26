@@ -12,5 +12,5 @@ libraryDependencies ++= Seq(
   "org.scalameta" %% "scalameta" % "0.1.0-RC2",
   "org.scalatest" %%  "scalatest"   % "2.2.1" % "test",
   "org.mockito" % "mockito-core" % "1.10.19" % "test",
-  "org.scalaz" %% "scalaz-core" % "7.1.4" % "test"
+  "org.scalaz" %% "scalaz-core" % "7.2.2" % "test"
 )

@@ -44,7 +44,7 @@ class EqualityUsageSpec  extends BaseInspectionSpec {
         compile(
           """import scalaz._
              import Scalaz._
-             1 === 1 """) {
+             1 === 1""") {
           _.should not have inspection problems
         }
       }
@@ -90,7 +90,7 @@ class EqualityUsageSpec  extends BaseInspectionSpec {
         compile(
           """import scalaz._
              import Scalaz._
-             1 =/= 2 """) {
+             1 =/= 2""") {
           _.should not have inspection problems
         }
       }

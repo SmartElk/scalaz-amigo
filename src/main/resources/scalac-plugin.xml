@@ -1,0 +1,4 @@
+<plugin>
+    <name>scalaz-amigo</name>
+    <classname>com.smartelk.scalaz.amigo.AmigoPlugin</classname>
+</plugin>
