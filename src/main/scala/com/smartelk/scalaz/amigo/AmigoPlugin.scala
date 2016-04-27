@@ -21,15 +21,16 @@ class AmigoPlugin(val global: Global) extends Plugin {
     override def newPhase(prev: Phase): StdPhase = new StdPhase(prev) {
       override def apply(unit: global.CompilationUnit): Unit = {
         val mtree = unit.source.content.parse[Source].get
-        val result = inspections.flatMap(_(mtree))
-        applyOnInspectionResult(result)
+        val warnings = inspections.flatMap(_(mtree))
+        val warningsWithContext = warnings.map(WarningWithContext(_, unit.source))
+        applyOnInspectionResult(warningsWithContext)
       }
     }
   }
 
-  def applyOnInspectionResult(result: Seq[Warning]) = {
-    result.foreach {r =>
-      global.reporter.warning(r.mtree.position, r.description)
+  def applyOnInspectionResult(warnings: Seq[WarningWithContext]) = {
+    warnings.foreach {w =>
+      global.reporter.warning(w.position, w.warning.description)
     }
   }
 
