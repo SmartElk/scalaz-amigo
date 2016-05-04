@@ -16,22 +16,32 @@ class AmigoPlugin(val global: Global) extends Plugin {
     override val global: self.global.type = self.global
 
     override val phaseName: String = "scalaz-amigo"
-    override val runsAfter: List[String] = List("typer")
+    override val runsAfter: List[String] = List("refchecks")
 
     override def newPhase(prev: Phase): StdPhase = new StdPhase(prev) {
       override def apply(unit: global.CompilationUnit): Unit = {
         val mtree = unit.source.content.parse[Source].get
-        val warnings = inspections.flatMap(_(mtree))
-        val warningsWithContext = warnings.map(WarningWithContext(_, unit.source))
-        applyOnInspectionResult(warningsWithContext)
+        val problems = inspections.flatMap(_(mtree))
+        val problemsWithContext = problems.map(ProblemWithContext(_, unit.source))
+        applyOnInspectionResult(problemsWithContext)
       }
     }
   }
 
-  def applyOnInspectionResult(warnings: Seq[WarningWithContext]) = {
-    warnings.foreach {w =>
-      global.reporter.warning(w.position, w.warning.description)
+  def applyOnInspectionResult(problems: Seq[ProblemWithContext]) = {
+    problems.foreach {p =>
+      global.reporter.warning(p.position, p.problem.description)
     }
+  }
+
+  override def init(options: List[String], error: (String) => Unit): Boolean = {
+    //todo
+    true
+  }
+
+  override val optionsHelp: Option[String] = {
+    //todo
+    None
   }
 
   val inspections = Seq(

@@ -14,7 +14,7 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
     "org.scalaz/scalaz-core_2.11/jars/scalaz-core_2.11-7.2.2.jar"
   )
 
-  def compile(code: String)(assert: Seq[WarningWithContext] => Unit): Unit = {
+  def compile(code: String)(assert: Seq[ProblemWithContext] => Unit): Unit = {
     val targetDir =  new VirtualDirectory("(memory)", None)
     var pluginCalled = false
 
@@ -37,9 +37,9 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
       f_plugins.setAccessible(true)
 
       val amigoPlugin = new AmigoPlugin(global) {
-        override def applyOnInspectionResult(warnings: Seq[WarningWithContext]) = {
+        override def applyOnInspectionResult(problems: Seq[ProblemWithContext]) = {
           pluginCalled = true
-          assert(warnings)
+          assert(problems)
         }
       }
       f_plugins.set(global, global.plugins :+ amigoPlugin)
@@ -74,7 +74,7 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
   object InspectionSpecDsl {
     object inspection
     object problems
-    implicit class InspectionResultWrapper(warnings: Seq[WarningWithContext]){
+    implicit class InspectionResultWrapper(inspectionResult: Seq[ProblemWithContext]){
       def should = new ShouldAction
 
       class ShouldAction {
@@ -92,7 +92,7 @@ trait BaseInspectionSpec extends WordSpecLike with Matchers {
       }
 
       def shouldHaveInspectionProblems(problems: String*) = {
-        warnings.map(_.warning.problem) should be (problems)
+        inspectionResult.map(_.problem.problem) should be (problems)
       }
     }
   }

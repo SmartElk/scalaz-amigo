@@ -1,12 +1,12 @@
 package com.smartelk.scalaz.amigo.inspections
 
-import com.smartelk.scalaz.amigo.{Inspection, Warning}
+import com.smartelk.scalaz.amigo.{Inspection, Problem}
 import scala.meta._
 
 class OptionUsage extends Inspection {
-  def apply(mtree: scala.meta.Tree): Seq[Warning] = mtree.collect {
+  def apply(mtree: scala.meta.Tree): Seq[Problem] = mtree.collect {
     case t@ q"${name: Term.Name}" if name.toString == "Some" => {
-      Warning(t,
+      Problem(t,
         "'Some' usage",
         """Using Scala's standard 'Some'""",
         """Use Scalaz's 'some'. See: 'http://eed3si9n.com/scalaz-cheat-sheet'""",
@@ -17,7 +17,7 @@ class OptionUsage extends Inspection {
         """.stripMargin)
     }
     case t@ q"${name: Term.Name}" if name.toString == "None" => {
-      Warning(t,
+      Problem(t,
         "'None' usage",
         """Using Scala's standard 'None'""",
         """Use Scalaz's 'none'. See: 'http://eed3si9n.com/scalaz-cheat-sheet'""",

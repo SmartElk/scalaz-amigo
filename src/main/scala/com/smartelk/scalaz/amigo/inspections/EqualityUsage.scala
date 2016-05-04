@@ -4,9 +4,9 @@ import com.smartelk.scalaz.amigo._
 import scala.meta._
 
 class EqualityUsage extends Inspection {
-  def apply(mtree: scala.meta.Tree): Seq[Warning] = mtree.collect {
+  def apply(mtree: scala.meta.Tree): Seq[Problem] = mtree.collect {
     case t@ q"${name: Term.Name}" if name.toString == "==" => {
-      Warning(t,
+      Problem(t,
         "'==' usage",
         """Using '==' is not type safe""",
         """Use Scalaz's 'Equal' typeclass and '===' operator. See: 'http://eed3si9n.com/learning-scalaz/Equal.html', 'https://earldouglas.com/notes/learning-scalaz.html'""",
@@ -18,7 +18,7 @@ class EqualityUsage extends Inspection {
       )
     }
     case t@ q"${name: Term.Name}" if name.toString == "!=" => {
-      Warning(t,
+      Problem(t,
         "'!=' usage",
         """Using '!=' is not type safe""",
         """Use Scalaz's 'Equal' typeclass and '=/=' operator. See: 'http://eed3si9n.com/learning-scalaz/Equal.html', 'https://earldouglas.com/notes/learning-scalaz.html'""",
