@@ -9,11 +9,11 @@ class OptionUsage {
 
   func(1.some)
 
-  val a = Some(6) //should warn
+  val a = Some(6) //should alert
 
   func(none)
 
   val b = 2.some
 
-  func(None) //should warn
+  func(None) //should alert
 }

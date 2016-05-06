@@ -1,6 +1,7 @@
 package com.smartelk.scalaz.amigo
 
 import com.smartelk.scalaz.amigo.inspections._
+import scala.reflect.internal.util.NoPosition
 import scala.tools.nsc.plugins.{Plugin, PluginComponent}
 import scala.tools.nsc._
 import scala.meta._
@@ -11,6 +12,7 @@ class AmigoPlugin(val global: Global) extends Plugin {
   override val components: List[PluginComponent] = List(AmigoComponent)
   val name = "scalaz-amigo"
   val description = "Compiler plugin for Scalaz code-style inspections"
+  var alertMode = AlertMode.Warn
 
   object AmigoComponent extends PluginComponent {
     override val global: self.global.type = self.global
@@ -28,21 +30,36 @@ class AmigoPlugin(val global: Global) extends Plugin {
     }
   }
 
+  object AlertMode extends Enumeration {
+    val Warn, Error = Value
+  }
+
   def applyOnInspectionResult(problems: Seq[ProblemWithContext]) = {
-    problems.foreach {p =>
-      global.reporter.warning(p.position, p.problem.description)
+    val alert = alertMode match {
+      case AlertMode.Warn => global.reporter.warning _
+      case AlertMode.Error => global.reporter.error _
     }
+    problems.foreach(p => alert(p.position, p.problem.description))
   }
 
   override def init(options: List[String], error: (String) => Unit): Boolean = {
-    //todo
+    options.foreach { opt =>
+        opt.split(':').toList match {
+          case "alertMode" :: value:: Nil => value match {
+            case "error" => alertMode = AlertMode.Error
+            case "warn" => alertMode = AlertMode.Warn
+            case unknown => global.reporter.error(NoPosition, "Wrong scalaz-amigo plugin 'alertMode' option: " + unknown)
+          }
+          case _ =>
+        }
+      }
     true
   }
 
-  override val optionsHelp: Option[String] = {
-    //todo
-    None
-  }
+  override val optionsHelp: Option[String] = Some("""
+      | -P:scalaz-amigo:
+      |   alertMode:    warn/error
+    """)
 
   val inspections = Seq(
     new OptionUsage,
@@ -52,6 +69,3 @@ class AmigoPlugin(val global: Global) extends Plugin {
     new VarUsage
   )
 }
-
-
-
