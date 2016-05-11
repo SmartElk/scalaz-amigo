@@ -3,8 +3,8 @@ package com.smartelk.scalaz.amigo.inspections
 import com.smartelk.scalaz.amigo._
 import scala.meta._
 
-class EitherUsage extends Inspection {
-  def apply(mtree: scala.meta.Tree): Seq[Problem] = mtree.collect {
+case object EitherUsage extends Inspection {
+  def inspect(mtree: scala.meta.Tree): Seq[Problem] = mtree.collect {
     case t@ q"${name: Term.Name}" if name.toString == "Right" => {
       Problem(t,
         "'Right' usage",

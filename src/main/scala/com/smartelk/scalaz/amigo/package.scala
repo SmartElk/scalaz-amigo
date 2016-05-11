@@ -4,8 +4,8 @@ import scala.reflect.internal.util.{RangePosition, SourceFile}
 
 package object amigo {
 
-  abstract class Inspection {
-    def apply(mtree: scala.meta.Tree): Seq[Problem]
+  abstract class Inspection extends Product {
+    def inspect(mtree: scala.meta.Tree): Seq[Problem]
   }
 
   case class Problem(mtree: scala.meta.Tree, problem: String, description: String, advice: String, example: String)

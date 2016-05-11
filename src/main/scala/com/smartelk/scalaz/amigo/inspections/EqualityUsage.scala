@@ -3,8 +3,8 @@ package com.smartelk.scalaz.amigo.inspections
 import com.smartelk.scalaz.amigo._
 import scala.meta._
 
-class EqualityUsage extends Inspection {
-  def apply(mtree: scala.meta.Tree): Seq[Problem] = mtree.collect {
+case object EqualityUsage extends Inspection {
+  def inspect(mtree: scala.meta.Tree): Seq[Problem] = mtree.collect {
     case t@ q"${name: Term.Name}" if name.toString == "==" => {
       Problem(t,
         "'==' usage",

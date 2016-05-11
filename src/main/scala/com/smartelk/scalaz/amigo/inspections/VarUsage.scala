@@ -4,8 +4,8 @@ import com.smartelk.scalaz.amigo.{Problem, Inspection}
 import scala.meta._
 
 //todo: there are cases when 'var' usage is OK, e.g. inside Actor. Check it when have scalameta's semantic analysis at hand
-class VarUsage extends Inspection {
-  def apply(mtree: scala.meta.Tree): Seq[Problem] = mtree.collect {
+case object VarUsage extends Inspection {
+  def inspect(mtree: scala.meta.Tree): Seq[Problem] = mtree.collect {
     case t@ q"..$mods var ..$patsnel: $tpeopt = $expropt" => {
       Problem(t, "'var' usage", "Using 'var' definition", "Prefer 'val' to 'var'", "")
     }
