@@ -9,12 +9,8 @@ case object ToStringUsage extends Inspection {
       Problem(t,
         "'toString' usage",
         """Using 'toString' for conversion to textual representation""",
-        """Use Scalaz's 'Show' typeclass. See: 'http://eed3si9n.com/learning-scalaz/Show.html', 'https://earldouglas.com/notes/learning-scalaz.html'""",
-        """
-          |import scalaz._
-          |import Scalaz._
-          |val a: String = 1.shows
-        """.stripMargin)
+        """Use Scalaz's 'Show' typeclass. See: 'http://eed3si9n.com/learning-scalaz/Show.html', 'https://earldouglas.com/notes/learning-scalaz.html'"""
+      )
     }
   }
 }

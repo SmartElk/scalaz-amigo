@@ -7,7 +7,7 @@ scalacOptions += "-Xplugin:" + baseDirectory.value  + "/../target/scala-2.11/sca
 
 scalacOptions ++= Seq(
   "-P:scalaz-amigo: alertMode: error",
-  "-P:scalaz-amigo: turnOff: OptionUsage"
+  "-P:scalaz-amigo: turnOff: VarUsage"
 )
 
 resolvers ++= Seq(

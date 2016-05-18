@@ -42,7 +42,9 @@ class AmigoPlugin(val global: Global) extends Plugin {
       case AlertMode.Warn => global.reporter.warning _
       case AlertMode.Error => global.reporter.error _
     }
-    problems.foreach(p => alert(p.position, p.problem.description))
+    problems.foreach(p => alert(p.position, {
+      s"###scalaz-amigo: ${p.problem.description}. Advice: ${p.problem.advice}"
+    }))
   }
 
   override def init(options: List[String], error: (String) => Unit): Boolean = {
@@ -74,6 +76,7 @@ class AmigoPlugin(val global: Global) extends Plugin {
     EitherUsage,
     EqualityUsage,
     ToStringUsage,
-    VarUsage
+    VarUsage,
+    NestedCopyUsage
   )
 }
