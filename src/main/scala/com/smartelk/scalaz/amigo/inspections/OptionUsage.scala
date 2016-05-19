@@ -8,15 +8,17 @@ case object OptionUsage extends Inspection {
     case t@ q"${name: Term.Name}" if name.toString == "Some" => {
       Problem(t,
         "'Some' usage",
-        """Using Scala's standard 'Some'""",
-        """Use Scalaz's 'some'. See: 'http://eed3si9n.com/scalaz-cheat-sheet'"""
+        "Using Scala's standard 'Some'",
+        "Use Scalaz's 'some'",
+        Seq("http://eed3si9n.com/scalaz-cheat-sheet")
       )
     }
     case t@ q"${name: Term.Name}" if name.toString == "None" => {
       Problem(t,
         "'None' usage",
-        """Using Scala's standard 'None'""",
-        """Use Scalaz's 'none'. See: 'http://eed3si9n.com/scalaz-cheat-sheet'"""
+        "Using Scala's standard 'None'",
+        "Use Scalaz's 'none'",
+        Seq("http://eed3si9n.com/scalaz-cheat-sheet")
       )
     }
   }

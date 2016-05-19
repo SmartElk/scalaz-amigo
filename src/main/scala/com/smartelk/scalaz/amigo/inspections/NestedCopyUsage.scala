@@ -29,10 +29,11 @@ case object NestedCopyUsage extends Inspection {
                     case (Term.Apply(applyTerm2, _), `depth`) => {
                       applyTerm2 match {
                         case Term.Select(_, selectName2) if selectName2.toString == "copy" => {
-                          Some(Problem(mtree,
+                          Some(Problem(applyTerm2,
                             "'Nested copy' usage",
                             "Updating child data structure via multiple nested 'copy' calls",
-                            "Consider using Scalaz's 'Lens'. See: http://eed3si9n.com/learning-scalaz/Lens.html"
+                            "Consider using Scalaz's 'Lens'",
+                            Seq("http://eed3si9n.com/learning-scalaz/Lens.html")
                             ))
                         }
                         case _ => None

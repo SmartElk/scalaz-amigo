@@ -43,7 +43,10 @@ class AmigoPlugin(val global: Global) extends Plugin {
       case AlertMode.Error => global.reporter.error _
     }
     problems.foreach(p => alert(p.position, {
-      s"###scalaz-amigo: ${p.problem.description}. Advice: ${p.problem.advice}"
+      s"###scalaz-amigo: ${p.problem.description}. Advice: ${p.problem.advice}" + {
+          if (!p.problem.links.isEmpty) s"\nSee: ${p.problem.links.mkString(",")}"
+          else ""
+        }
     }))
   }
 
@@ -64,7 +67,7 @@ class AmigoPlugin(val global: Global) extends Plugin {
   }
 
   private val optionKeyValueSeparator = ':'
-  private val optionMultipleValuesSeparator = ','
+  private val optionMultipleValuesSeparator = '+'
   override val optionsHelp: Option[String] = Some(s"""
       | -P:scalaz-amigo:
       |   alertMode$optionKeyValueSeparator    {warn/error}

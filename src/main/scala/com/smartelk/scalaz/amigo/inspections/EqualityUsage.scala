@@ -8,15 +8,17 @@ case object EqualityUsage extends Inspection {
     case t@ q"${name: Term.Name}" if name.toString == "==" => {
       Problem(t,
         "'==' usage",
-        """Using '==' is not type safe""",
-        """Use Scalaz's 'Equal' typeclass and '===' operator. See: 'http://eed3si9n.com/learning-scalaz/Equal.html', 'https://earldouglas.com/notes/learning-scalaz.html'"""
+        "Using '==' is not type safe",
+        "Use Scalaz's 'Equal' typeclass and '===' operator",
+        Seq("http://eed3si9n.com/learning-scalaz/Equal.html", "https://earldouglas.com/notes/learning-scalaz.html")
       )
     }
     case t@ q"${name: Term.Name}" if name.toString == "!=" => {
       Problem(t,
         "'!=' usage",
-        """Using '!=' is not type safe""",
-        """Use Scalaz's 'Equal' typeclass and '=/=' operator. See: 'http://eed3si9n.com/learning-scalaz/Equal.html', 'https://earldouglas.com/notes/learning-scalaz.html'"""
+        "Using '!=' is not type safe",
+        "Use Scalaz's 'Equal' typeclass and '=/=' operator",
+        Seq("http://eed3si9n.com/learning-scalaz/Equal.html", "https://earldouglas.com/notes/learning-scalaz.html")
       )
     }
   }

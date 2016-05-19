@@ -8,8 +8,9 @@ case object ToStringUsage extends Inspection {
     case t@ q"$expr.${name: Term.Name}" if name.toString.trim == "toString" => {
       Problem(t,
         "'toString' usage",
-        """Using 'toString' for conversion to textual representation""",
-        """Use Scalaz's 'Show' typeclass. See: 'http://eed3si9n.com/learning-scalaz/Show.html', 'https://earldouglas.com/notes/learning-scalaz.html'"""
+        "Using 'toString' for conversion to textual representation",
+        "Use Scalaz's 'Show' typeclass",
+        Seq("http://eed3si9n.com/learning-scalaz/Show.html", "https://earldouglas.com/notes/learning-scalaz.html")
       )
     }
   }

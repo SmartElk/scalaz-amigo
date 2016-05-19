@@ -8,7 +8,7 @@ package object amigo {
     def inspect(mtree: scala.meta.Tree): Seq[Problem]
   }
 
-  case class Problem(mtree: scala.meta.Tree, problem: String, description: String, advice: String)
+  case class Problem(mtree: scala.meta.Tree, problem: String, description: String, advice: String, links: Seq[String])
 
   case class ProblemWithContext(problem: Problem, source: SourceFile) {
     val position = {
