@@ -81,6 +81,6 @@ class AmigoPlugin(val global: Global) extends Plugin {
     ToStringUsage,
     VarUsage,
     NestedCopyUsage,
-    MutableCollectionUsage
+    MutableCollectionImport
   )
 }
